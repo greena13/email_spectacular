@@ -1,0 +1,40 @@
+AllCops:
+  TargetRubyVersion: 2.5
+
+Metrics/LineLength:
+  Max: 120
+
+Metrics/AbcSize:
+  Enabled: false
+
+Style/Documentation:
+  Enabled: false
+
+Style/ClassAndModuleChildren:
+  Enabled: false
+
+Style/RescueModifier:
+  Enabled: false
+
+Layout/MultilineOperationIndentation:
+  Enabled: false
+
+Layout/TrailingWhitespace:
+  Enabled: false
+
+Metrics/PerceivedComplexity:
+  Max: 20
+
+Metrics/CyclomaticComplexity:
+  Max: 20
+
+Metrics/MethodLength:
+  CountComments: false
+  Max: 20
+
+Metrics/BlockLength:
+  ExcludedMethods:
+    - describe
+    - context
+    - class_eval
+
