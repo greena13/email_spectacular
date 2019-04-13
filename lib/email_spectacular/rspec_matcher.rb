@@ -13,10 +13,10 @@ module EmailSpectacular
   #
   # @see EmailSpectacular::RSpec#email
   # @see EmailSpectacular::RSpec#have_been_sent
-  class Expectation < EmailFilter
+  class RSpecMatcher < EmailFilter
     # Creates a new EmailSpectacular::Expectation object
     #
-    # @return [EmailSpectacular::Expectation] new expectation object
+    # @return [EmailSpectacular::RSpecMatcher] new expectation object
     def initialize
       @failure_message = 'Expected email to be sent'
       super

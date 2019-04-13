@@ -130,7 +130,7 @@ module EmailSpectacular
         #
         # @param [String] selector CSS selector that should match at least one sent
         #   email's body
-        # @return [EmailSpectacular::Expectation] reference to self, to allow for
+        # @return [EmailSpectacular::RSpecMatcher] reference to self, to allow for
         #   further method chaining
         def matching_selector(selector)
           @scopes[:matching_selector] ||= []

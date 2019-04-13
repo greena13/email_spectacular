@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'email_spectacular/expectation'
+require 'email_spectacular/rspec_matcher'
 
 module EmailSpectacular
   # Module containing email helper methods that can be mixed into the RSpec test scope
@@ -33,7 +33,7 @@ module EmailSpectacular
     # @example Asserting email has been sent
     #   expect(email).to have_been_sent.to('test@email.com')
     def have_been_sent # rubocop:disable Naming/PredicateName
-      EmailSpectacular::Expectation.new
+      EmailSpectacular::RSpecMatcher.new
     end
   end
 end
