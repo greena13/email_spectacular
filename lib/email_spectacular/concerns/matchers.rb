@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'email_spectacular/adaptors/html_parser'
+require 'email_spectacular/adaptors/capybara_adaptor'
 
 module EmailSpectacular
   # Module containing helper methods for matching expectations against emails
   #
   # @author Aleck Greenham
   module Matchers
-    include HTMLParser
+    include CapybaraAdaptor
 
     MATCHERS = {
       to: :to,
