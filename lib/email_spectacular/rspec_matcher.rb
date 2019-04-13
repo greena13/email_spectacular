@@ -1,6 +1,8 @@
 # frozen_string_literal: true
 
-require 'email_spectacular/email_filter'
+require 'email_spectacular/concerns/dsl'
+require 'email_spectacular/concerns/failure_descriptions'
+require 'email_spectacular/concerns/matchers'
 
 module EmailSpectacular
   # Backing class for {#have_been_sent} declarative syntax for specifying email
@@ -13,14 +15,10 @@ module EmailSpectacular
   #
   # @see EmailSpectacular::RSpec#email
   # @see EmailSpectacular::RSpec#have_been_sent
-  class RSpecMatcher < EmailFilter
-    # Creates a new EmailSpectacular::Expectation object
-    #
-    # @return [EmailSpectacular::RSpecMatcher] new expectation object
-    def initialize
-      @failure_message = 'Expected email to be sent'
-      super
-    end
+  class RSpecMatcher
+    include DSL
+    include Matchers
+    include FailureDescriptions
 
     # Declares that RSpec should not attempt to diff the actual and expected values
     # to put in the failure message. This class takes care of diffing and presenting
