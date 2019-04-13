@@ -9,6 +9,16 @@
 
 High-level email spec helpers for acceptance, feature and request tests.
 
+## Basic Usage
+
+```ruby
+it 'does many things, including sending an email' do
+  # ...
+
+  expect(email).to have_been_sent.to('user@email.com')
+end
+```
+
 ## What EmailSpectacular is
 
 Expressive email assertions that let you succinctly describe when emails should and should not be sent.
