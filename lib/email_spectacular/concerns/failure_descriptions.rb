@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 require 'email_spectacular/parser'
-require 'email_spectacular/matchers'
+require 'email_spectacular/concerns/matchers'
 
 module EmailSpectacular
   # Module containing the helper methods to describe the difference between the expected
