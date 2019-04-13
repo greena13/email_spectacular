@@ -158,6 +158,16 @@ Emails can be cleared at any point by calling `clear_emails` in your tests. This
 
 If you followed in installation steps above, emails will automatically be cleared between each spec.
 
+## Gotchas and Troubleshooting
+
+EmailSpectacular expects your application to configure `ActionMailer` to store emails in the `ActionMailer::Base.deliveries` array.
+
+In a Rails app, this is done (automatically, by default) in your environment file: `config/environment/test.rb` 
+
+```ruby
+config.action_mailer.delivery_method = :test
+```
+
 ## Test suite
 
 `email_spectacular` comes with close-to-complete test coverage. You can run the test suite as follows:
