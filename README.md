@@ -36,13 +36,13 @@ RSpec.configure do |config|
   # ...
 
   email_spectacular_spec_types = %i[acceptance feature request]
-  
-  config.after(:each, type: email_spectacular_spec_types) do
-    # Clear emails between specs
-    clear_emails
-  end
-  
+
   email_spectacular_spec_types.each do |spec_type|
+    config.after(:each, type: spec_type) do
+      # Clear emails between specs
+      clear_emails
+    end
+    
     # Include email spectacular syntax in rspec tests
     config.include EmailSpectacular::RSpec, type: spec_type
   end
