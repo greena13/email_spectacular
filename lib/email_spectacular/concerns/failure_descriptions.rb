@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'email_spectacular/parser'
+require 'email_spectacular/adaptors/html_parser'
 require 'email_spectacular/concerns/matchers'
 
 module EmailSpectacular
@@ -9,7 +9,7 @@ module EmailSpectacular
   #
   # @author Aleck Greenham
   module FailureDescriptions # rubocop:disable Metrics/ModuleLength
-    include Parser
+    include HTMLParser
 
     def self.included(base) # rubocop:disable Metrics/MethodLength
       base.class_eval do

@@ -6,7 +6,7 @@ module EmailSpectacular
   # Module for parsing email bodies
   #
   # @author Aleck Greenham
-  module Parser
+  module HTMLParser
     def parsed_emails(email)
       parser(email)
     end

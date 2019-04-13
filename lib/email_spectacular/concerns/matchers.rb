@@ -1,13 +1,13 @@
 # frozen_string_literal: true
 
-require 'email_spectacular/parser'
+require 'email_spectacular/adaptors/html_parser'
 
 module EmailSpectacular
   # Module containing helper methods for matching expectations against emails
   #
   # @author Aleck Greenham
   module Matchers
-    include Parser
+    include HTMLParser
 
     MATCHERS = {
       to: :to,
