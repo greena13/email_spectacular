@@ -1,4 +1,7 @@
-# EmailSpectacular
+<p align="center">
+  <img src="https://svgshare.com/i/CSb.svg" width="200px"><br/>
+  <h2 align="center">EmailSpectacular</h2>
+</p>
 
 [![Gem](https://img.shields.io/gem/dt/email_spectacular.svg)]()
 [![Build Status](https://travis-ci.org/greena13/email_spectacular.svg)](https://travis-ci.org/greena13/email_spectacular)
