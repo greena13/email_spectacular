@@ -40,8 +40,8 @@ end
 Add `email_spectacular` to your `spec/rails_helper.rb`
 
 ```ruby
+require 'email_spectacular/rspec'
 
-require 'email_spectacular'
 
 # ...
 
