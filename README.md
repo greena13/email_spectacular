@@ -42,8 +42,10 @@ Add `email_spectacular` to your `spec/rails_helper.rb`
 ```ruby
 require 'email_spectacular/rspec'
 
-
-# ...
+# ...   
+EmailSpectacular.configure do |config|
+  config.helper_name = :an_email # Default is 'email' 
+end
 
 RSpec.configure do |config|
   # ...
@@ -66,7 +68,7 @@ And then execute:
 
 ```bash
 bundle install
-```
+```   
 
 ## Usage
 

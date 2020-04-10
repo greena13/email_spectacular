@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+require 'email_spectacular.rb'
 require 'email_spectacular/rspec_matcher'
 require 'email_spectacular/adaptors/action_mailer_adaptor'
 
