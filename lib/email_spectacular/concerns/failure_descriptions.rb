@@ -19,7 +19,9 @@ module EmailSpectacular
           scopes.each do |attribute, expected|
             matching_emails =
               emails.select do |email|
-                email_matches?(email, EmailSpectacular::Matchers::MATCHERS[attribute], expected)
+                email_matches?(email, EmailSpectacular::Matchers::MATCHERS[attribute], expected) &&
+                  (!EmailSpectacular._mocking_sending_enqueued_emails ||
+                    email.instance_variable_get(:@enqueued) == @enqueued)
               end
 
             return [attribute, expected] if matching_emails.empty?
@@ -28,23 +30,30 @@ module EmailSpectacular
           [nil, nil]
         end
 
-        def describe_failed_assertion(emails, attribute_name, attribute_value)
+        def describe_failed_assertion(attribute_name, attribute_value)
+          action = mail_action_description
+
           field_descriptions = attribute_descriptions([attribute_name])
           value_descriptions = value_descriptions([attribute_value])
 
           base_clause = expectation_description(
-            'Expected an email to be sent',
+            "Expected an email to be #{action}",
             field_descriptions,
             value_descriptions
           )
 
-          if emails.empty?
-            "#{base_clause} However, no emails were sent."
+          if @emails.empty?
+            "#{base_clause} However, no emails were #{action}."
+          elsif @matching_emails[:sent].any? || @matching_emails[:enqueued].any?
+            opposite_action = @enqueued ? 'sent' : 'enqueued'
+            "#{base_clause} However, it was #{opposite_action} instead."
           else
-            email_values = sent_email_values(emails, attribute_name)
+            field_descriptions = attribute_descriptions([attribute_name])
+
+            email_values = sent_email_values(@emails, attribute_name)
 
             if email_values.any?
-              base_clause + " However, #{email_pluralisation(emails)} sent " \
+              base_clause + " However, #{email_pluralisation(@emails)} #{action} " \
               "#{result_description(field_descriptions, [to_sentence(email_values)])}."
             else
               base_clause
@@ -91,6 +100,14 @@ module EmailSpectacular
         end
 
         private
+
+        def mail_action_description
+          if EmailSpectacular._mocking_sending_enqueued_emails
+            @enqueued ? 'enqueued' : 'sent'
+          else
+            'sent'
+          end
+        end
 
         def result_description(field_descriptions, values)
           to_sentence(

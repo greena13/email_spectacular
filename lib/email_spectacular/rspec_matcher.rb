@@ -35,7 +35,8 @@ module EmailSpectacular
     # @return [Boolean] True when a matching email was sent
     def matches?(emails)
       @emails = emails
-      matching_emails(emails, @scopes).any?
+      @matching_emails = matching_emails(emails, @scopes)
+      (@enqueued ? @matching_emails[:enqueued] : @matching_emails[:sent]).any?
     end
 
     # Message to display to StdOut by RSpec if the equality check fails. Includes a
@@ -56,11 +57,7 @@ module EmailSpectacular
       attribute, expected_value =
         attribute_and_expected_value(@scopes, @emails)
 
-      describe_failed_assertion(
-        @emails,
-        attribute,
-        expected_value
-      )
+      describe_failed_assertion(attribute, expected_value)
     end
 
     # Failure message to display for negative RSpec assertions, i.e.

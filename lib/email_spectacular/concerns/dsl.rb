@@ -7,9 +7,10 @@ module EmailSpectacular
   module DSL
     def self.included(base) # rubocop:disable Metrics/MethodLength
       base.class_eval do
-        def initialize
+        def initialize(options = {})
           @scopes = {}
           @and_scope = nil
+          @enqueued = options[:enqueued]
         end
 
         # Allows chaining two assertions on the same email attribute together without

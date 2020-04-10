@@ -42,11 +42,6 @@ Add `email_spectacular` to your `spec/rails_helper.rb`
 ```ruby
 require 'email_spectacular/rspec'
 
-# ...   
-EmailSpectacular.configure do |config|
-  config.helper_name = :an_email # Default is 'email' 
-end
-
 RSpec.configure do |config|
   # ...
 
@@ -69,6 +64,46 @@ And then execute:
 ```bash
 bundle install
 ```   
+
+### Configuration
+
+Email Spectacular is configured using the `configure` method. It's suggested you place this in your `spec/rails_helper.rb` file, after you require `email_specatular`:
+
+
+```ruby
+require 'email_spectacular/rspec'
+
+EmailSpectacular.configure do |config|
+  # Configuration here
+end
+```                   
+
+#### Setting the name of the email helper
+
+By default, Email Spectacular makes a `email` helper available for your expectation syntax (all examples below assume this default helper), however if this conflicts with anything in your test suite or is not preferred, you can specify a different helper name:
+
+```ruby
+EmailSpectacular.configure do |config|
+  config.helper_name = :an_email # Default is 'email' 
+end
+``` 
+
+#### Working with enqueued emails
+
+If your emails are not sent immediately in your application - using `deliver_later` - you must mock this method in test mode so they appear to have sent to Email Spectacular, which is enabled using the `mock_sending_enqueued_emails` option:
+
+```ruby
+EmailSpectacular.configure do |config|
+  # Mocks the enqueueing of emails so they appear in the list of sent email
+  config.mock_sending_enqueued_emails = true
+end
+```       
+
+This then enables the assertion `have_been_enqueued`, which has the same arguments and behaviour as `have_been_sent`, but will verify the email has been enqueued rather than sent immediately:
+
+```ruby
+expect(email).to have_been_enqueued.to('user@email.com')
+```
 
 ## Usage
 

@@ -37,14 +37,18 @@ module EmailSpectacular
     def self.included(base) # rubocop:disable Metrics/MethodLength
       base.class_eval do
         def matching_emails(emails, scopes)
-          if scopes.any?
-            emails.select do |email|
-              scopes.all? do |attribute, expected|
-                email_matches?(email, MATCHERS[attribute], expected)
+          emails.each_with_object(sent: [], enqueued: []) do |email, memo|
+            matches_scopes = scopes.all? do |attribute, expected|
+              email_matches?(email, MATCHERS[attribute], expected)
+            end
+
+            if matches_scopes
+              if email.instance_variable_get(:@enqueued)
+                memo[:enqueued] << email
+              else
+                memo[:sent] << email
               end
             end
-          else
-            emails
           end
         end
 
