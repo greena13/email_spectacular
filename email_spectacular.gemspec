@@ -21,12 +21,12 @@ Gem::Specification.new do |spec|
   spec.test_files    = spec.files.grep(%r{^(spec)/})
   spec.require_paths = ['lib']
 
-  spec.add_dependency 'actionmailer', '>= 0'
+  spec.add_dependency 'actionmailer'
   spec.add_dependency 'capybara', '~> 2.5', '>= 2.5.0'
 
-  spec.add_development_dependency 'bundler', '~> 1.6'
+  spec.add_development_dependency 'bundler', '~> 2'
   spec.add_development_dependency 'guard', '~> 2.1'
   spec.add_development_dependency 'guard-rspec', '~> 4.7'
-  spec.add_development_dependency 'rake', '~> 0'
+  spec.add_development_dependency 'rake', '>= 12.3.3'
   spec.add_development_dependency 'rspec', '>= 3.5.0'
 end
