@@ -14,22 +14,30 @@ module EmailSpectacular
       from: :from,
       with_subject: :subject,
       with_text: {
-        match: ->(_, email, value) { value.all? { |text| email.has_text?(text) } },
-        actual: ->(_, email) { email.text }
+        match: lambda { |_, email_parts, value|
+          value.all? { |text| email_parts.values.any? { |email_part| email_part.has_text?(text) } }
+        },
+        actual: ->(_, parsed_email_part) { parsed_email_part.text }
       },
       matching_selector: {
-        match: ->(_, email, value) { value.all? { |selector| email.has_selector?(selector) } },
-        actual: ->(_, email) { email.native },
+        match: lambda { |_, email_parts, value|
+          email_parts.values.any? { |email_part| value.all? { |selector| email_part.has_selector?(selector) } }
+        },
+        actual: ->(_, parsed_email_part) { parsed_email_part.native },
         actual_name: :with_body
       },
       with_link: {
-        match: ->(_, email, value) { value.all? { |url| email.has_selector?("a[href='#{url}']") } },
-        actual: ->(_, email) { email.native },
+        match: lambda { |_, email_parts, value|
+          email_parts.values.any? { |email_part| value.all? { |url| email_part.has_selector?("a[href='#{url}']") } }
+        },
+        actual: ->(_, parsed_email_part) { parsed_email_part.native },
         actual_name: :with_body
       },
       with_image: {
-        match: ->(_, email, value) { value.all? { |url| email.has_selector?("img[src='#{url}']") } },
-        actual: ->(_, email) { email.native },
+        match: lambda { |_, email_parts, value|
+          email_parts.values.any? { |email_part| value.all? { |url| email_part.has_selector?("img[src='#{url}']") } }
+        },
+        actual: ->(_, parsed_email_part) { parsed_email_part.native },
         actual_name: :with_body
       }
     }.freeze
@@ -59,7 +67,7 @@ module EmailSpectacular
           when String, Symbol
             email.send(assertion).include?(expected)
           when Hash
-            assertion[:match].call(email, parsed_emails(email), expected)
+            assertion[:match].call(email, parsed_email_parts(email), expected)
           else
             raise "Unsupported assertion mapping '#{assertion}' of type #{assertion.class.name}"
           end

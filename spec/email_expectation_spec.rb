@@ -249,7 +249,13 @@ RSpec.describe 'have_sent_email' do
       expect do
         expect(subject).to have_been_sent.with_text('Other text')
       end.to raise_error.with_message(
-        "Expected an email to be sent with text 'Other text'. However, 1 was sent with text '#{subject[0].text}'."
+        <<~MSG.chomp
+          Expected an email to be sent with text 'Other text'. However, 1 was sent with text 
+          
+          (Content Type text/html):
+          
+          #{subject[0].text}.
+        MSG
       )
     end
 
@@ -263,7 +269,13 @@ RSpec.describe 'have_sent_email' do
       expect do
         expect(subject).to have_been_sent.matching_selector('.other')
       end.to raise_error.with_message(
-        "Expected an email to be sent matching selector '.other'. However, 1 was sent with body #{subject[0].body}."
+        <<~MSG.chomp
+          Expected an email to be sent matching selector '.other'. However, 1 was sent with body 
+
+          (Content Type text/html):
+
+          #{subject[0].body}.
+        MSG
       )
     end
 
@@ -277,7 +289,13 @@ RSpec.describe 'have_sent_email' do
       expect do
         expect(subject).to have_been_sent.with_link('www.other.com')
       end.to raise_error.with_message(
-        "Expected an email to be sent with link 'www.other.com'. However, 1 was sent with body #{subject[0].body}."
+        <<~MSG.chomp
+          Expected an email to be sent with link 'www.other.com'. However, 1 was sent with body 
+
+          (Content Type text/html):
+
+          #{subject[0].body}.
+        MSG
       )
     end
 
@@ -291,7 +309,13 @@ RSpec.describe 'have_sent_email' do
       expect do
         expect(subject).to have_been_sent.with_image('www.other.com')
       end.to raise_error.with_message(
-        "Expected an email to be sent with image 'www.other.com'. However, 1 was sent with body #{subject[0].body}."
+        <<~MSG.chomp
+          Expected an email to be sent with image 'www.other.com'. However, 1 was sent with body 
+
+          (Content Type text/html):
+
+          #{subject[0].body}.
+        MSG
       )
     end
 
@@ -387,8 +411,13 @@ RSpec.describe 'have_sent_email' do
       expect do
         expect(subject).to have_been_sent.with_text('Other').and('Email')
       end.to raise_error.with_message(
-        "Expected an email to be sent with text 'Other' and 'Email'. However, 1 was " \
-        "sent with text '#{subject[0].text}'."
+        <<~MSG.chomp
+          Expected an email to be sent with text 'Other' and 'Email'. However, 1 was sent with text 
+
+          (Content Type text/html):
+
+          #{subject[0].text}.
+        MSG
       )
     end
 
@@ -396,7 +425,13 @@ RSpec.describe 'have_sent_email' do
       expect do
         expect(subject).to have_been_sent.with_text('Test').and('Other')
       end.to raise_error.with_message(
-        "Expected an email to be sent with text 'Test' and 'Other'. However, 1 was sent with text '#{subject[0].text}'."
+        <<~MSG.chomp
+          Expected an email to be sent with text 'Test' and 'Other'. However, 1 was sent with text 
+
+          (Content Type text/html):
+
+          #{subject[0].text}.
+        MSG
       )
     end
 

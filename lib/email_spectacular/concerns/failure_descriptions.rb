@@ -126,7 +126,11 @@ module EmailSpectacular
         def sent_email_values(emails, attribute)
           emails.each_with_object([]) do |email, memo|
             if %i[matching_selector with_link with_image].include?(attribute)
-              memo << email_body(email)
+              memo << raw_email_parts(email).inject([]) do |description, (content_type, raw_email_part)|
+                  description.push(
+                    "\n\n(Content Type #{content_type}):\n\n#{raw_email_part}"
+                  )
+                end.join('')
             else
               matcher = EmailSpectacular::Matchers::MATCHERS[attribute]
 
@@ -135,12 +139,19 @@ module EmailSpectacular
                 when String, Symbol
                   email.send(matcher)
                 when Hash
-                  matcher[:actual].call(email, parsed_emails(email))
+                  parsed_email_parts(email).inject([]) do |description, (content_type, parsed_email_part)|
+                    description.push(
+                      "\n\n(Content Type #{content_type}):\n\n#{matcher[:actual].call(email, parsed_email_part)}"
+                    )
+                  end.join('')
                 else
                   raise ArgumentError, "Failure related to an unknown or unsupported email attribute #{attribute}"
                 end
 
-              value = value.is_a?(String) ? "'#{value}'" : value.map { |element| "'#{element}'" }
+              unless attribute == :with_text
+                value = value.is_a?(String) ? "'#{value}'" : value.map { |element| "'#{element}'" }
+              end
+
               memo << value
             end
           end

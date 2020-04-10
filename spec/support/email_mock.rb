@@ -42,4 +42,8 @@ class EmailBodyMock
   def decoded
     @text
   end
+
+  def content_type
+    'text/html; charset=UTF-8'
+  end
 end
