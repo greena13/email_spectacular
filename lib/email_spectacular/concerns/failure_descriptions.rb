@@ -162,13 +162,15 @@ module EmailSpectacular
         end
 
         def to_sentence(items)
-          case items.length
+          _items = items.flatten
+
+          case _items.length
           when 0, 1
-            items.join('')
+            _items.join('')
           when 2
-            items.join(' and ')
+            _items.join(' and ')
           else
-            items[0..(items.length - 3)].join(', ') + items[(items.length - 3)..items.length - 1].join(' and ')
+            _items[0..(_items.length - 3)].join(', ') + ', ' + _items[(_items.length - 2).._items.length - 1].join(' and ')
           end
         end
       end
