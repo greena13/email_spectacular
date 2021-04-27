@@ -22,7 +22,7 @@ Gem::Specification.new do |spec|
   spec.require_paths = ['lib']
 
   spec.add_dependency 'actionmailer'
-  spec.add_dependency 'capybara', '~> 2.5', '>= 2.5.0'
+  spec.add_dependency 'capybara', '>= 2.5.0'
 
   spec.add_development_dependency 'bundler', '~> 2'
   spec.add_development_dependency 'guard', '~> 2.1'
